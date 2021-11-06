@@ -35,10 +35,13 @@ public class ActivitiServiceImpl implements ActivitiService {
     @Override
     public boolean createDeployment() {
         DeploymentBuilder builder = repositoryService.createDeployment();
+        // idea高版本与bmp插件不谦容，故直接把bpmn文件放到resource下
         builder.addClasspathResource("test.bpmn");
+        // 进行发布
         Deployment deploy = builder.deploy();
+        // 以发布后的Deployment为条件获取流程key
         ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(deploy.getId()).singleResult();
-        log.info("key:{}",processDefinition.getKey());
+        log.info("流程key:{}",processDefinition.getKey());
         return true;
     }
 
